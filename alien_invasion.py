@@ -63,6 +63,11 @@ class AlienInvation:
         #comprobar eliminacion de la balas al tocar el borde
         #print(len(self.bullets))
 
+        """Actualiza la posición de las balas y se deshace de las viejas"""
+        #busca balas que hayan dado a aliens.
+        #SWi hay, se deshace de la bala y del alien
+        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, False, True)
+
     
 
     def _check_keydown_events(self, event):
