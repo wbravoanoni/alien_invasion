@@ -1,6 +1,7 @@
 from settings import Settings
 from ship import Ship
 from bullet import Bullet
+from alien import Alien
 
 import sys
 import pygame
@@ -19,7 +20,9 @@ class AlienInvation:
         pygame.display.set_caption("Alien Invasion")
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
-
+        self.aliens = pygame.sprite.Group()
+        
+        self._create_fleet()
 
     def run_game(self):
         while True:
@@ -47,6 +50,7 @@ class AlienInvation:
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
 
+        self.aliens.draw(self.screen)
         pygame.display.flip()
 
     def _update_bullets(self):
@@ -81,6 +85,12 @@ class AlienInvation:
         if len(self.bullets) < self.settings.bullets_allowed:
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
+
+    def _create_fleet(self):
+        """Crea la flota ed aliens."""
+        # hace un alien.
+        alien = Alien(self)
+        self.aliens.add(alien)
 
 
 
