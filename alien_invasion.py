@@ -33,9 +33,12 @@ class AlienInvation:
     def run_game(self):
         while True:
             self._check_events()
-            self.ship.update()
-            self._update_bullets()
-            self._update_aliens()
+
+            if self.stats.game_active:
+                self.ship.update()
+                self._update_bullets()
+                self._update_aliens()
+
             self._update_screen()
            
         
@@ -174,25 +177,26 @@ class AlienInvation:
 
     def _ship_hit(self):
         """Responde al impacto de un alien en la nave"""
+        if self.stats.ships_left > 0:
+            # Disminuye ships_left
+            self.stats.ships_left -=1
 
-        #disminuye ship_left
-        self.stats.ships_left -=1
-
-        # Se deshace de los aliens y balas restantes.
-        self.aliens.empty()
-        self.bullets.empty
+            # Se deshace de los aliens y balas restantes.
+            self.aliens.empty()
+            self.bullets.empty
         
-        # Crea una flota nueva y centra la nave.
-        self._create_fleet()
-        self.ship.center_ship()
+            # Crea una flota nueva y centra la nave.
+            self._create_fleet()
+            self.ship.center_ship()
+            # Pausa
+            sleep(0.5)
+        else:
+            self.stats.game_active = False
 
-        # Pausa
-        sleep(0.5)
-
-    def _check_Aliens_bottom(self):
+    def _check_aliens_bottom(self):
         """Comprueba si algun alien ha llegado al fondo de la pantalla"""
         screen_rect = self.screen.get_rect()
-        for alien in self.alien.sprites():
+        for alien in self.aliens.sprites():
             if alien.rect.bottom >= screen_rect.bottom:
                 #trata esto como si la nave hubiese sido alcanzada.
                 self._ship_hit()
