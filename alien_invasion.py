@@ -213,10 +213,22 @@ class AlienInvation:
                 #trata esto como si la nave hubiese sido alcanzada.
                 self._ship_hit()
                 break
+
     def _check_play_button(self, mouse_pos):
         """Inicia un juego nuevo cuando el jugador hace click en Play"""
-        if self.play_button.rect.collidepoint(mouse_pos):
+        button_clicked = self.play_button.rect.collidepoint(mouse_pos)
+        if button_clicked and not self.stats.game_active):
+            #restablece las estadisticas del juego
+            self.stats.reset_stats()
             self.stats.game_active = True
+
+            #se deshace de los aliens y las balas que quedan
+            self.aliens.empty()
+            self.bullets.empty
+
+            #crea una flota nueva y centra la nave.
+            self._create_fleet()
+            self.ship.center_ship()
     
 
 
