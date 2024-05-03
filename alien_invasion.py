@@ -102,6 +102,7 @@ class AlienInvation:
             # Destruye las balas existentes y crea una flota.
             self.bullets.empty()
             self._create_fleet()
+            self.settings.increase_speed()
 
     
     def _check_keydown_events(self, event):
@@ -204,6 +205,7 @@ class AlienInvation:
             sleep(0.5)
         else:
             self.stats.game_active = False
+            pygame.mouse.set_visible(True)
 
     def _check_aliens_bottom(self):
         """Comprueba si al  gun alien ha llegado al fondo de la pantalla"""
@@ -217,7 +219,7 @@ class AlienInvation:
     def _check_play_button(self, mouse_pos):
         """Inicia un juego nuevo cuando el jugador hace click en Play"""
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
-        if button_clicked and not self.stats.game_active):
+        if button_clicked and not self.stats.game_active:
             #restablece las estadisticas del juego
             self.stats.reset_stats()
             self.stats.game_active = True
@@ -229,6 +231,12 @@ class AlienInvation:
             #crea una flota nueva y centra la nave.
             self._create_fleet()
             self.ship.center_ship()
+
+            #oculta el cursor del raton
+            pygame.mouse.set_visible(False)
+
+            #restablece las configuraciones del juego.
+            self.settings.initialize_dynamic_settings()
     
 
 
