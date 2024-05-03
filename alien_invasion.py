@@ -209,6 +209,9 @@ class AlienInvation:
             # Disminuye ships_left
             self.stats.ships_left -=1
 
+            #reduce una vida en imagenes
+            self.sb.prep_ships()
+
             # Se deshace de los aliens y balas restantes.
             self.aliens.empty()
             self.bullets.empty
@@ -240,6 +243,7 @@ class AlienInvation:
             self.stats.game_active = True
             self.sb.prep_score()
             self.sb.prep_level()
+            self.sb.prep_ships()
 
             #se deshace de los aliens y las balas que quedan
             self.aliens.empty()
