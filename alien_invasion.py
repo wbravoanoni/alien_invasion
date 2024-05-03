@@ -115,6 +115,10 @@ class AlienInvation:
             self._create_fleet()
             self.settings.increase_speed()
 
+            #aumenta el nivel
+            self.stats.level +=1
+            self.sb.prep_level()
+
     
     def _check_keydown_events(self, event):
         if event.key == pygame.K_RIGHT:
@@ -235,6 +239,7 @@ class AlienInvation:
             self.stats.reset_stats()
             self.stats.game_active = True
             self.sb.prep_score()
+            self.sb.prep_level()
 
             #se deshace de los aliens y las balas que quedan
             self.aliens.empty()
