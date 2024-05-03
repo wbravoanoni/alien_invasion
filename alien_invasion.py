@@ -63,13 +63,26 @@ class AlienInvation:
         #comprobar eliminacion de la balas al tocar el borde
         #print(len(self.bullets))
 
+        self._check_bullet_alien_collisions()
+
         """Actualiza la posición de las balas y se deshace de las viejas"""
+      
+
+
+
+    def _check_bullet_alien_collisions(self):
+        """Responed a las colisiones bala-alien"""
+        #retira todas las blalas y aliens que han chocado
         #busca balas que hayan dado a aliens.
         #SWi hay, se deshace de la bala y del alien
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, False, True)
 
-    
+        if not self.aliens:
+            # Destruye las balas existentes y crea una flota.
+            self.bullets.empty()
+            self._create_fleet()
 
+    
     def _check_keydown_events(self, event):
         if event.key == pygame.K_RIGHT:
             self.ship.moving_right = True
