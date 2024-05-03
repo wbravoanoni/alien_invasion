@@ -103,6 +103,12 @@ class AlienInvation:
         #SWi hay, se deshace de la bala y del alien
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, False, True)
 
+        if collisions:
+            for aliens in collisions.values():
+                self.stats.score += self.settings.alien_points * len(aliens)
+            self.sb.prep_score()
+            self.sb.check_high_score()
+
         if not self.aliens:
             # Destruye las balas existentes y crea una flota.
             self.bullets.empty()
@@ -228,6 +234,7 @@ class AlienInvation:
             #restablece las estadisticas del juego
             self.stats.reset_stats()
             self.stats.game_active = True
+            self.sb.prep_score()
 
             #se deshace de los aliens y las balas que quedan
             self.aliens.empty()
