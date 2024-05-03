@@ -2,6 +2,8 @@ from settings import Settings
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
+from time import sleep
+from game_stats import GameStats
 
 import sys
 import pygame
@@ -18,6 +20,10 @@ class AlienInvation:
         self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
         self.bg_color = self.settings.bg_color
         pygame.display.set_caption("Alien Invasion")
+
+        #Crear una instancia para guardar las estadisticas del juego
+        self.stats = GameStats(self)
+
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
         self.aliens = pygame.sprite.Group()
@@ -144,6 +150,13 @@ class AlienInvation:
         self._check_fleet_edges()
         self.aliens.update()
 
+        #busca colisiones alien-nave
+        if pygame.sprite.spritecollideany(self.ship, self.aliens):
+            self._ship_hit()
+
+        #busca aliens llegando al fondo de la pantalla
+        self._check_aliens_bottom()
+
 
 
     def _check_fleet_edges(self):
@@ -158,6 +171,32 @@ class AlienInvation:
         for alien in  self.aliens.sprites():
             alien.rect.y += self.settings.fleet_drop_speed
         self.settings.fleet_direction  *=-1
+
+    def _ship_hit(self):
+        """Responde al impacto de un alien en la nave"""
+
+        #disminuye ship_left
+        self.stats.ships_left -=1
+
+        # Se deshace de los aliens y balas restantes.
+        self.aliens.empty()
+        self.bullets.empty
+        
+        # Crea una flota nueva y centra la nave.
+        self._create_fleet()
+        self.ship.center_ship()
+
+        # Pausa
+        sleep(0.5)
+
+    def _check_Aliens_bottom(self):
+        """Comprueba si algun alien ha llegado al fondo de la pantalla"""
+        screen_rect = self.screen.get_rect()
+        for alien in self.alien.sprites():
+            if alien.rect.bottom >= screen_rect.bottom:
+                #trata esto como si la nave hubiese sido alcanzada.
+                self._ship_hit()
+                break
 
 
 if __name__ == '__main__':

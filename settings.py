@@ -4,6 +4,7 @@ class Settings:
         self.screen_height = 800
         self.bg_color = (230, 230,230)
         self.ship_speed = 1.5
+        self.ship_limit = 3
         #configuracion de las balas
         self.bullet_speed = 1.5
         self.bullet_width = 300
@@ -14,4 +15,4 @@ class Settings:
         self.fleet_drop_speed = 10
         #fleet_direction de 1 representa derecha; -1 representa izquiera
         self.fleet_direction = 1
-
+        
