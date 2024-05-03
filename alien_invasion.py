@@ -29,6 +29,7 @@ class AlienInvation:
             self._check_events()
             self.ship.update()
             self._update_bullets()
+            self._update_aliens()
             self._update_screen()
            
         
@@ -117,6 +118,28 @@ class AlienInvation:
         alien.rect.x = alien.x
         alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
         self.aliens.add(alien)
+
+    def _update_aliens(self):
+        """Comprueba si la flota está en un borde,
+        después actualiza las posiciones de todos los aliens de la flota"""
+
+        self._check_fleet_edges()
+        self.aliens.update()
+
+
+
+    def _check_fleet_edges(self):
+        """Responde adecuadamente si algun alien ha llegado alun borde"""
+        for alien in self.aliens.sprites():
+            if alien.check_edges():
+                self._change_fleet_direction()
+                break
+    
+    def _change_fleet_direction(self):
+        """Baja toda la flota y cambia su direccion"""
+        for alien in  self.aliens.sprites():
+            alien.rect.y += self.settings.fleet_drop_speed
+        self.settings.fleet_direction  *=-1
 
 
 if __name__ == '__main__':
